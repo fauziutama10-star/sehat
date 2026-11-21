@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="id"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#eef1ee"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
-<title>Latihan Fauzi</title>
+<link rel="manifest" href="manifest.json"><link rel="icon" href="icon-192.png"><title>Latihan Fauzi</title>
 <style>
 :root{--bg:#eef1ee;--c:#fff;--c2:#dfe6e1;--t:#16231f;--m:#5d6e67;--a:#ff5a1f;--g:#1f6f5c}
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
@@ -163,4 +163,5 @@ function fin(){clearInterval(iv);try{W.wl&&W.wl.release()}catch(e){}
  render()}
 function quit(){if(confirm('Akhiri latihan? Set yang sudah selesai tetap tersimpan.'))fin()}
 render();
+if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script></body></html>
