@@ -1,0 +1,166 @@
+<!DOCTYPE html><html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#eef1ee"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
+<title>Latihan Fauzi</title>
+<style>
+:root{--bg:#eef1ee;--c:#fff;--c2:#dfe6e1;--t:#16231f;--m:#5d6e67;--a:#ff5a1f;--g:#1f6f5c}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--t);font:16px/1.4 system-ui,sans-serif;padding-top:env(safe-area-inset-top)}
+#app{max-width:520px;margin:auto;padding:16px 16px 96px}
+h1{font-size:24px;letter-spacing:-.5px}h2{font-size:17px;margin:16px 0 8px}
+.card{background:var(--c);border-radius:14px;padding:14px;margin:10px 0}
+.m{color:var(--m);font-size:13px}
+button{font:inherit;border:0;border-radius:10px;padding:12px 14px;background:var(--c2);color:var(--t)}
+button:focus-visible,input:focus-visible{outline:3px solid var(--g);outline-offset:2px}
+.p{background:var(--a);color:#fff;font-weight:700}
+.big{width:100%;padding:16px;font-size:17px;margin-top:10px}
+.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}
+.seg button{background:var(--c)}.seg .on{background:var(--t);color:#fff;font-weight:700}
+nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:var(--c);padding:6px 6px calc(6px + env(safe-area-inset-bottom));border-top:1px solid var(--c2)}
+nav button{flex:1;background:none;font-size:13px;color:var(--m)}nav .on{color:var(--a);font-weight:700}
+svg.an{width:100%;height:auto;background:var(--c2);border-radius:14px;display:block}
+input{font:inherit;background:var(--c);color:var(--t);border:1px solid #b9c5be;border-radius:10px;padding:10px;width:100%}
+.tm{font-size:54px;font-weight:800;text-align:center;font-variant-numeric:tabular-nums;line-height:1.2}
+.bar{height:8px;background:var(--c2);border-radius:8px;overflow:hidden}.bar i{display:block;height:100%;background:var(--g)}
+.cue{text-align:center;color:var(--a);font-weight:700;min-height:24px;margin:8px 0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+</style></head><body><div id="app"></div>
+<script>
+const $=s=>document.querySelector(s),app=$('#app'),FL=126,D=Math.PI/180;
+const today=()=>new Date().toISOString().slice(0,10);
+let S;try{S=JSON.parse(localStorage.getItem('ff'))}catch(e){}
+S=S||{h:165,w:[{d:today(),k:75}],s:[],mode:'home'};
+const save=()=>{try{localStorage.setItem('ff',JSON.stringify(S))}catch(e){}};
+const fmt=s=>Math.floor(Math.max(0,s)/60)+':'+String(Math.max(0,s)%60).padStart(2,'0');
+
+/* Pose: [torso, lengan atas, lengan bawah, paha, betis, naik-turun pinggul] (derajat dari arah ke bawah; badan menghadap kanan) */
+const E={
+squat:{n:'Squat Badan',m:'f',x:90,A:[0,0,0,0,0],B:[38,80,80,78,-22],c:['Turun: pinggul ke belakang','Naik: dorong lewat tumit'],tip:'Punggung lurus, lutut searah jari kaki, turun sampai paha hampir sejajar lantai. Taruh kursi di belakang sebagai pengaman.'},
+gsquat:{n:'Goblet Squat (dumbel)',m:'f',x:90,A:[0,10,125,0,0],B:[30,12,125,78,-22],db:1,w:10,c:['Turun pelan','Naik'],tip:'Peluk 1 dumbel 10 kg di depan dada, siku mengarah ke bawah. Dada tegak, turun sampai paha hampir sejajar lantai.'},
+pushk:{n:'Push-up Lutut',m:'k',x:60,A:[51,0,0,-51,-125],B:[80,-75,75,-80,-125],c:['Turun: dada mendekati lantai','Naik: dorong lantai'],tip:'Tangan selebar bahu, badan lurus dari lutut sampai kepala. Turun 2 detik, naik 1 detik. Alas lutut dengan handuk.'},
+row:{n:'Dumbbell Row (2 × 6 kg)',m:'f',x:90,A:[70,0,0,25,-20],B:[70,-125,-15,25,-20],db:1,w:6,c:['Tarik siku ke belakang','Turunkan pelan'],tip:'Badan condong ke depan, punggung datar, lutut sedikit ditekuk. Tarik dumbel ke arah pinggang, jepit tulang belikat. Beban dihitung per dumbel.'},
+press:{n:'Overhead Press (2 × 6 kg)',m:'f',x:90,A:[0,15,170,0,0],B:[0,172,176,0,0],db:1,w:6,T:3,c:['Dorong ke atas','Turunkan ke bahu'],tip:'Berdiri tegak, perut dikencangkan, jangan melengkungkan punggung bawah. Beban dihitung per dumbel.'},
+curl:{n:'Bicep Curl (2 × 6 kg)',m:'f',x:90,A:[0,3,3,0,0],B:[0,3,150,0,0],db:1,w:6,c:['Angkat dumbel','Turunkan pelan'],tip:'Siku menempel di samping badan, jangan mengayun. Beban dihitung per dumbel.'},
+plank:{n:'Plank',m:'f',x:30,A:[76.6,0,90,-76.6,-76.6],B:[74,0,90,-74,-74],T:4,c:['Tahan posisi','Napas teratur'],tip:'Siku di bawah bahu, badan lurus dari kepala sampai tumit, perut kencang. Jika berat, lakukan dengan lutut di lantai.'},
+bridge:{n:'Glute Bridge',m:'f',x:120,A:[-90,90,90,135,45],B:[-120,90,90,100,19],T:3,c:['Angkat pinggul','Turunkan pelan'],tip:'Telentang, lutut ditekuk, telapak kaki di lantai. Angkat pinggul sampai bahu-pinggul-lutut satu garis, tahan 1 detik.'},
+hang:{n:'Pull-up Negatif',m:'b',A:[0,-10,170,10,-15],B:[0,180,180,5,-10],T:6,c:['Turun sangat pelan (3-5 detik)','Naik dibantu (lompat/pijakan)'],tip:'Naik dibantu sampai dagu di atas bar, lalu turun sepelan mungkin. Cara terbaik menambah jumlah pull-up dari 1-2 kali. Lakukan 2-3 repetisi saja.'},
+bike:{n:'Sepeda Statis',m:'p',alt:2,seat:1,T:1.6,A:[35,50,60,75,10,0],B:[35,50,60,20,-60,0],c:['Kayuh santai','Napas teratur'],tip:'Mulai resistensi ringan, tempo yang masih bisa bicara. Atur sadel setinggi pinggul.'},
+walk:{n:'Jalan di Treadmill',m:'p',alt:1,T:1.2,A:[4,-25,-5,20,15,0],B:[4,30,60,-18,-45,0],c:['Langkah santai','Ayun lengan'],tip:'Kecepatan 4-5 km/jam, kemiringan 1-3%. Badan tegak, pandangan ke depan, jangan berpegangan.'},
+skip:{n:'Lompat Kecil (latihan skipping)',m:'p',T:.7,A:[0,15,70,5,-10,0],B:[0,15,70,0,-5,-7],c:['Dorong dari ujung kaki','Mendarat lembut'],tip:'Tanpa tali dulu: lompat 2-3 cm, lutut sedikit ditekuk, putar pergelangan tangan. Setelah ritme nyaman baru pakai tali. Hindari lompat tinggi agar lutut aman.'},
+legext:{n:'Leg Extension (mesin)',m:'s',w:0,T:3,A:[-5,35,45,90,0,0],B:[-5,35,45,90,90,0],c:['Luruskan kaki','Turunkan pelan'],tip:'Atur bantalan di atas pergelangan kaki. Luruskan lutut tanpa menghentak, tahan 1 detik di atas.'},
+chest:{n:'Chest Press (mesin)',m:'s',w:0,bar:1,A:[-3,-70,85,90,0,0],B:[-3,88,88,90,0,0],c:['Dorong ke depan','Tekuk siku pelan'],tip:'Punggung menempel sandaran, pegangan sejajar dada. Dorong sampai hampir lurus, jangan mengunci siku.'},
+pulldown:{n:'Lat Pulldown (mesin)',m:'s',w:0,bar:1,cab:1,T:3,A:[-12,172,172,90,0,0],B:[-12,-15,150,90,0,0],c:['Tarik bar ke dada atas','Lepas pelan ke atas'],tip:'Pegang bar lebih lebar dari bahu, dada membusung, tarik dengan siku. Latihan yang membantu progres pull-up.'},
+srow:{n:'Seated Row (mesin)',m:'s',w:0,bar:1,A:[0,85,85,90,0,0],B:[-8,-80,70,90,0,0],c:['Tarik siku ke belakang','Rentangkan lengan pelan'],tip:'Dada menempel bantalan, tarik sampai tulang belikat terjepit, jangan mengayunkan badan.'},
+spress:{n:'Shoulder Press Duduk',m:'s',w:6,db:1,T:3,A:[0,15,170,90,0,0],B:[0,172,176,90,0,0],c:['Dorong ke atas','Turunkan ke bahu'],tip:'Duduk tegak dengan sandaran. Mulai dengan dumbel ringan (6 kg), beban dihitung per dumbel.'}
+};
+const pad=a=>[...a,0].slice(0,6);
+Object.values(E).forEach(e=>{e.A=pad(e.A);e.B=pad(e.B)});
+
+/* Program: [id, set, target, satuan r=repetisi s=detik m=menit] */
+const RT={home:{
+A:{n:'Full Body A',i:[['squat',3,10,'r'],['pushk',3,8,'r'],['row',3,10,'r'],['plank',3,20,'s'],['bridge',3,12,'r'],['bike',1,10,'m']]},
+B:{n:'Full Body B',i:[['gsquat',3,10,'r'],['press',3,10,'r'],['curl',3,10,'r'],['hang',3,2,'r'],['skip',3,20,'s'],['bike',1,10,'m']]}},
+gym:{
+A:{n:'Gym A',i:[['walk',1,10,'m'],['legext',3,12,'r'],['chest',3,10,'r'],['pulldown',3,10,'r'],['plank',3,20,'s']]},
+B:{n:'Gym B',i:[['bike',1,10,'m'],['gsquat',3,10,'r'],['spress',3,10,'r'],['srow',3,10,'r'],['bridge',3,12,'r']]}}};
+
+/* ===== Animasi figur ===== */
+const lerp=(a,b,e)=>a.map((v,i)=>v+(b[i]-v)*e);
+function jt(p){const[t,a1,a2,l1,l2]=p,v=(a,l)=>[Math.sin(a*D)*l,Math.cos(a*D)*l],ad=(a,b)=>[a[0]+b[0],a[1]+b[1]],
+ sh=[Math.sin(t*D)*34,-Math.cos(t*D)*34],el=ad(sh,v(a1,18)),ha=ad(el,v(a2,17)),kn=v(l1,22),ft=ad(kn,v(l2,22));
+ return{sh,el,ha,kn,ft,hd:[sh[0]+Math.sin(t*D)*11,sh[1]-Math.cos(t*D)*11]}}
+function fig(ex,ph){
+ const p=lerp(ex.A,ex.B,ph),q=ex.alt?lerp(ex.B,ex.A,ph):p,j=jt(p),f=jt(q),m=ex.m;let o;
+ if(m=='f')o=[ex.x-j.ft[0],FL-j.ft[1]];else if(m=='k')o=[ex.x-j.kn[0],FL-j.kn[1]];
+ else if(m=='b')o=[100-j.ha[0],22-j.ha[1]];else if(m=='s')o=[70,104];else o=[95,FL-44+p[5]];
+ const P=a=>(a[0]+o[0]).toFixed(1)+','+(a[1]+o[1]).toFixed(1),hip=[0,0],
+ ln=(pts,c,w)=>`<polyline points="${pts.map(P).join(' ')}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`,
+ fa=ex.alt==1?f:j,fl=ex.alt?f:j,H=[j.ha[0]+o[0],j.ha[1]+o[1]];
+ let s=`<line x1="0" y1="${FL+3}" x2="200" y2="${FL+3}" stroke="#9fb0a7" stroke-width="2"/>`;
+ if(m=='b')s+=`<line x1="60" y1="22" x2="140" y2="22" stroke="#5d6e67" stroke-width="3"/>`;
+ if(m=='s')s+=`<rect x="50" y="107" width="44" height="19" rx="3" fill="#9fb0a7"/>`;
+ if(ex.seat)s+=`<rect x="83" y="${FL-41}" width="26" height="5" rx="2" fill="#5d6e67"/><rect x="94" y="${FL-36}" width="4" height="39" fill="#9fb0a7"/>`;
+ if(ex.cab)s+=`<line x1="${H[0]}" y1="${H[1]}" x2="${H[0]}" y2="2" stroke="#5d6e67" stroke-width="1.5" stroke-dasharray="3"/>`;
+ s+=ln([hip,fl.kn,fl.ft],'#5d6e67',5)+ln([j.sh,fa.el,fa.ha],'#5d6e67',4)+ln([hip,j.sh],'#ff5a1f',7)+ln([hip,j.kn,j.ft],'#16231f',5.5)+ln([j.sh,j.el,j.ha],'#16231f',4.5)
+ +`<circle cx="${P(j.hd).split(',')[0]}" cy="${P(j.hd).split(',')[1]}" r="6.5" fill="#16231f"/>`;
+ if(ex.db)s+=`<line x1="${H[0]-6}" y1="${H[1]}" x2="${H[0]+6}" y2="${H[1]}" stroke="#16231f" stroke-width="2"/><circle cx="${H[0]-6}" cy="${H[1]}" r="3.5" fill="#1f6f5c"/><circle cx="${H[0]+6}" cy="${H[1]}" r="3.5" fill="#1f6f5c"/>`;
+ if(ex.bar)s+=`<line x1="${H[0]-18}" y1="${H[1]}" x2="${H[0]+18}" y2="${H[1]}" stroke="#1f6f5c" stroke-width="3" stroke-linecap="round"/>`;
+ return s}
+let raf;
+function play(ex,sv,cue){const t0=performance.now(),T=(ex.T||2.6)*1000;
+ (function f(n){const c=((n-t0)%T)/T,e=.5-.5*Math.cos(c*2*Math.PI);sv.innerHTML=fig(ex,e);if(cue)cue.textContent=ex.c[c<.5?0:1];raf=requestAnimationFrame(f)})(t0)}
+
+/* ===== Tampilan ===== */
+let tab='home',sel=null,gsel='squat',W=null,iv;
+const show=t=>{tab=t;render()};
+const nav=()=>`<nav>${[['home','🏠','Beranda'],['guide','🎬','Panduan'],['prog','📈','Progres']].map(x=>`<button class="${tab==x[0]?'on':''}" onclick="show('${x[0]}')">${x[1]}<br>${x[2]}</button>`).join('')}</nav>`;
+const cur=()=>RT[W.mode][W.rk].i[W.i];
+const fs=(t,u)=>u=='r'?t.v+'×'+(t.k?' '+t.k+'kg':''):fmt(t.v);
+
+function render(){cancelAnimationFrame(raf);
+ const h=tab=='home'?home():tab=='guide'?guide():tab=='prog'?prog():runView();
+ app.innerHTML=h+(tab=='run'?'':nav());
+ const sv=$('#an');if(sv)play(tab=='run'?E[cur()[0]]:E[gsel],sv,$('#cue'));
+ if(tab!='run')window.scrollTo(0,0)}
+
+function home(){
+ const k=S.w.at(-1).k,bmi=(k/((S.h/100)**2)).toFixed(1),R=RT[S.mode],ks=Object.keys(R),ls=S.s.filter(x=>x.mode==S.mode).at(-1);
+ if(!sel||!R[sel])sel=ls&&ls.rk==ks[0]?ks[1]:ks[0];
+ const wk=S.s.filter(x=>Date.now()-new Date(x.d)<6048e5).length,ago=S.s.length?Math.floor((Date.now()-new Date(S.s.at(-1).d))/864e5):null;
+ return `<h1>Halo, Fauzi</h1><div class="m">${k} kg, ${S.h} cm, BMI ${bmi}</div>
+ <div class="row seg" style="margin-top:12px"><button class="${S.mode=='home'?'on':''}" onclick="setMode('home')">Di Rumah</button><button class="${S.mode=='gym'?'on':''}" onclick="setMode('gym')">Di Gym</button></div>
+ <div class="card"><b>${wk} sesi minggu ini</b><div class="m">${ago==null?'Belum ada sesi, mulai kapan pun kamu siap.':ago==0?'Terakhir latihan: hari ini':'Terakhir latihan: '+ago+' hari lalu'}. Target 2-3 sesi per minggu, hari bebas.</div><div class="bar" style="margin-top:8px"><i style="width:${Math.min(100,wk/3*100)}%"></i></div></div>
+ <h2>Pilih latihan (disarankan: ${R[sel].n})</h2><div class="row seg">${ks.map(x=>`<button class="${x==sel?'on':''}" onclick="sel='${x}';render()">${R[x].n}</button>`).join('')}</div>
+ <div class="card">${R[sel].i.map(x=>`<div class="row" style="padding:5px 0"><span style="flex:3">${E[x[0]].n}</span><span class="m" style="text-align:right">${x[3]=='m'?x[2]+' menit':x[1]+' × '+x[2]+(x[3]=='s'?' detik':'')}</span></div>`).join('')}</div>
+ <button class="p big" onclick="start()">Mulai latihan</button>
+ <div class="card m">Pemanasan 3-5 menit dulu (jalan di tempat, putar bahu dan pinggul). Istirahat 60 detik antar set. Naikkan repetisi atau beban sedikit saat semua set terasa ringan. Berhenti jika ada nyeri sendi.</div>`}
+function setMode(m){S.mode=m;sel=null;save();render()}
+function guide(){return `<h1>Panduan gerakan</h1><svg class="an" id="an" viewBox="0 0 200 140" style="margin-top:10px"></svg><div class="cue" id="cue"></div>
+ <div class="card"><b>${E[gsel].n}</b><div class="m">${E[gsel].tip}</div></div>
+ <div class="chips">${Object.keys(E).map(k=>`<button class="${k==gsel?'p':''}" onclick="gsel='${k}';render()">${E[k].n}</button>`).join('')}</div>`}
+
+function chart(){const w=S.w.slice(-12);if(w.length<2)return '<div class="m">Catat berat badan minimal 2 kali untuk melihat grafik.</div>';
+ const v=w.map(x=>x.k),mn=Math.min(...v)-1,mx=Math.max(...v)+1,X=i=>20+i*(260/(w.length-1)),Y=k=>20+(mx-k)/(mx-mn)*85;
+ return `<svg viewBox="0 0 300 125" style="width:100%"><polyline fill="none" stroke="#ff5a1f" stroke-width="2" points="${v.map((k,i)=>X(i)+','+Y(k)).join(' ')}"/>${v.map((k,i)=>`<circle cx="${X(i)}" cy="${Y(k)}" r="3" fill="#ff5a1f"/><text x="${X(i)}" y="${Y(k)-7}" fill="#5d6e67" font-size="9" text-anchor="middle">${k}</text>`).join('')}</svg>`}
+function prog(){
+ const vol=S.s.reduce((a,s)=>a+s.it.reduce((b,i)=>b+i.sets.reduce((c,t)=>c+(i.u=='r'?t.v*(t.k||0):0),0),0),0),mins=Math.round(S.s.reduce((a,s)=>a+s.dur,0)/60),pr={};
+ S.s.forEach(s=>s.it.forEach(i=>i.sets.forEach(t=>{const sc=[i.u=='r'?t.k||0:0,t.v],o=pr[i.id];if(!o||sc[0]>o.s[0]||(sc[0]==o.s[0]&&sc[1]>o.s[1]))pr[i.id]={s:sc,u:i.u,t}})));
+ const st=(n,l)=>`<div class="card" style="text-align:center;margin:4px 0"><b style="font-size:22px">${n}</b><div class="m">${l}</div></div>`;
+ return `<h1>Progres</h1><div class="row" style="margin-top:10px">${st(S.s.length,'sesi')}${st(mins,'menit')}${st(Math.round(vol),'kg volume')}</div>
+ <h2>Berat badan</h2><div class="card">${chart()}<div class="row" style="margin-top:10px"><input id="nw" type="number" step="0.1" inputmode="decimal" placeholder="Berat hari ini (kg)"><button class="p" style="flex:0 0 auto" onclick="addW()">Simpan</button></div></div>
+ <h2>Rekor pribadi</h2><div class="card">${Object.keys(pr).length?Object.keys(pr).map(k=>`<div class="row" style="padding:4px 0"><span style="flex:3">${E[k].n}</span><b style="text-align:right">${fs(pr[k].t,pr[k].u)}</b></div>`).join(''):'<div class="m">Rekor muncul setelah sesi pertama selesai.</div>'}</div>
+ <h2>Riwayat latihan</h2>${S.s.length?S.s.map((s,i)=>[s,i]).slice(-15).reverse().map(([s,i])=>`<div class="card"><div class="row"><b style="flex:3">${s.n} (${s.mode=='home'?'rumah':'gym'})</b><button onclick="delS(${i})" style="flex:0 0 auto;padding:6px 10px">Hapus</button></div><div class="m">${new Date(s.d).toLocaleDateString('id-ID',{weekday:'short',day:'numeric',month:'short'})}, ${Math.round(s.dur/60)} menit</div>${s.it.map(x=>`<div class="m" style="margin-top:4px"><b>${E[x.id].n}:</b> ${x.sets.map(t=>fs(t,x.u)).join(', ')}</div>`).join('')}</div>`).join(''):'<div class="card m">Belum ada sesi tercatat.</div>'}`}
+function addW(){const v=parseFloat($('#nw').value);if(!(v>0))return;const l=S.w.at(-1);if(l.d==today())l.k=v;else S.w.push({d:today(),k:v});save();render()}
+function delS(i){if(confirm('Hapus sesi ini?')){S.s.splice(i,1);save();render()}}
+
+/* ===== Sesi latihan ===== */
+function beep(){try{navigator.vibrate&&navigator.vibrate([200,100,200]);const a=new(window.AudioContext||webkitAudioContext)(),o=a.createOscillator();o.connect(a.destination);o.frequency.value=880;o.start();o.stop(a.currentTime+.25)}catch(e){}}
+function setDef(){const it=cur(),ex=E[it[0]];W.reps=it[2];W.tm=it[2]*(it[3]=='m'?60:1);W.el=0;W.run=false;W.ph='ex';
+ let k=ex.w||0;for(const s of [...S.s].reverse()){const i=s.it.find(i=>i.id==it[0]);if(i&&i.sets.some(t=>t.k)){k=i.sets.filter(t=>t.k).at(-1).k;break}}W.kg=k}
+function start(){W={rk:sel,mode:S.mode,t0:Date.now(),i:0,s:0,log:RT[S.mode][sel].i.map(x=>({id:x[0],u:x[3],sets:[]}))};setDef();
+ try{navigator.wakeLock.request('screen').then(l=>W.wl=l)}catch(e){}show('run')}
+function runView(){
+ if(W.ph=='sum'){const s=W.sess;return s?`<h1>Latihan selesai</h1><div class="m">${s.n}, ${Math.round(s.dur/60)} menit, ${s.it.reduce((a,x)=>a+x.sets.length,0)} set</div>${s.it.map(x=>`<div class="card"><b>${E[x.id].n}</b><div class="m">${x.sets.map(t=>fs(t,x.u)).join(', ')}</div></div>`).join('')}`+'<button class="p big" onclick="W=null;show(\'home\')">Simpan dan kembali</button>':`<h1>Belum ada set</h1><div class="card m">Tidak ada set yang dicatat.</div><button class="p big" onclick="W=null;show('home')">Kembali</button>`}
+ const R=RT[W.mode][W.rk].i,it=cur(),ex=E[it[0]],u=it[3],tot=R.reduce((a,x)=>a+x[1],0),dn=W.log.reduce((a,l)=>a+l.sets.length,0),
+ head=`<div class="row"><div class="m">Latihan ${W.i+1}/${R.length}, set ${W.s+1}/${it[1]}</div><button onclick="quit()" style="flex:0 0 auto">Akhiri</button></div><div class="bar" style="margin:8px 0"><i style="width:${dn/tot*100}%"></i></div>`;
+ if(W.ph=='rest')return head+`<h2>Istirahat, berikutnya: ${ex.n}</h2><svg class="an" id="an" viewBox="0 0 200 140"></svg><div class="cue" id="cue"></div><div class="tm" id="rs">${fmt(W.rest)}</div><button class="p big" onclick="endRest()">Lewati istirahat</button>`;
+ const tg=u=='r'?it[2]+' repetisi':u=='s'?it[2]+' detik':it[2]+' menit';
+ return head+`<h2>${ex.n}</h2><svg class="an" id="an" viewBox="0 0 200 140"></svg><div class="cue" id="cue"></div><div class="card"><b>Target: ${tg}</b><div class="m">${ex.tip}</div></div>`+
+ (u=='r'?`<div class="row"><button onclick="rp(-1)">−</button><div class="tm" style="font-size:38px" id="rv">${W.reps}</div><button onclick="rp(1)">+</button></div>`:`<div class="tm" id="tm">${fmt(W.tm)}</div><button class="p big" id="tb" onclick="tgl()" style="margin-top:0">Mulai timer</button>`)+
+ (ex.w!==undefined?`<div class="m" style="margin-top:10px">Beban (kg)</div><input id="kg" type="number" step="0.5" inputmode="decimal" value="${W.kg}">`:'')+
+ `<button class="${u=='r'?'p ':''}big" onclick="done()">Set selesai ✓</button>`}
+const rp=d=>{W.reps=Math.max(0,W.reps+d);$('#rv').textContent=W.reps};
+function tgl(){if(W.run){W.run=false;clearInterval(iv);$('#tb').textContent='Lanjut timer';return}
+ W.run=true;$('#tb').textContent='Jeda';iv=setInterval(()=>{W.el++;W.tm--;$('#tm').textContent=fmt(W.tm);if(W.tm<=0){beep();done()}},1000)}
+function done(){clearInterval(iv);const it=cur(),u=it[3],t={v:u=='r'?W.reps:Math.max(W.el,1)},k=$('#kg');if(k)t.k=parseFloat(k.value)||0;
+ W.log[W.i].sets.push(t);const same=W.s+1<it[1];if(same)W.s++;else{W.i++;W.s=0}
+ if(W.i>=RT[W.mode][W.rk].i.length)return fin();setDef();rest(same?60:45)}
+function rest(sec){W.ph='rest';W.rest=sec;render();iv=setInterval(()=>{W.rest--;$('#rs').textContent=fmt(W.rest);if(W.rest<=0){beep();endRest()}},1000)}
+function endRest(){clearInterval(iv);W.ph='ex';render()}
+function fin(){clearInterval(iv);try{W.wl&&W.wl.release()}catch(e){}
+ const it=W.log.filter(l=>l.sets.length);W.ph='sum';W.sess=null;
+ if(it.length){W.sess={d:new Date().toISOString(),mode:W.mode,rk:W.rk,n:RT[W.mode][W.rk].n,dur:Math.round((Date.now()-W.t0)/1000),it};S.s.push(W.sess);save()}
+ render()}
+function quit(){if(confirm('Akhiri latihan? Set yang sudah selesai tetap tersimpan.'))fin()}
+render();
+</script></body></html>
