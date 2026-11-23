@@ -53,6 +53,26 @@ pulldown:{n:'Lat Pulldown (mesin)',m:'s',w:0,bar:1,cab:1,T:3,A:[-12,172,172,90,0
 srow:{n:'Seated Row (mesin)',m:'s',w:0,bar:1,A:[0,85,85,90,0,0],B:[-8,-80,70,90,0,0],c:['Tarik siku ke belakang','Rentangkan lengan pelan'],tip:'Dada menempel bantalan, tarik sampai tulang belikat terjepit, jangan mengayunkan badan.'},
 spress:{n:'Shoulder Press Duduk',m:'s',w:6,db:1,T:3,A:[0,15,170,90,0,0],B:[0,172,176,90,0,0],c:['Dorong ke atas','Turunkan ke bahu'],tip:'Duduk tegak dengan sandaran. Mulai dengan dumbel ringan (6 kg), beban dihitung per dumbel.'}
 };
+Object.assign(E,{
+pecdeck:{n:'Pec Deck (mesin)',m:'s',w:0,T:3,A:[-3,25,172,90,0,0],B:[-3,88,175,90,0,0],c:['Rapatkan lengan ke depan','Buka pelan'],tip:'Punggung menempel sandaran, siku sejajar dada, lengan bawah menempel bantalan. Rapatkan sambil memeras dada, jangan membuka melewati garis bahu.'},
+legpress:{n:'Leg Press (mesin)',m:'q',pin:[60,100],pl:1,back:1,w:0,T:3,A:[-50,60,70,160,85,0],B:[-50,60,70,100,100,0],c:['Dorong platform','Tekuk lutut pelan'],tip:'Punggung dan pinggul menempel sandaran, kaki selebar bahu. Dorong lewat tumit, jangan mengunci lutut, turun sampai lutut sekitar 90 derajat. Mulai dengan beban ringan.'},
+bench:{n:'Bench Press (barbel)',m:'f',x:120,A:[-90,180,180,90,0,0],B:[-90,100,178,90,0,0],bench:1,bb:1,w:20,T:3,c:['Turunkan bar ke dada','Dorong ke atas'],tip:'Kaki menapak lantai, bahu menempel bangku. Mulai dari bar kosong 20 kg dan minta teman menjaga. Turunkan bar sampai menyentuh dada tengah, dorong tanpa mengunci siku. Beban = total termasuk bar.'},
+pushdown:{n:'Triceps Pushdown (cable)',m:'f',x:90,w:0,bar:1,cab:1,A:[8,3,95,0,0,0],B:[8,3,3,0,0,0],c:['Dorong ke bawah','Naik pelan sampai siku 90 derajat'],tip:'Siku menempel di samping badan dan tidak bergerak. Dorong sampai lengan lurus, kembali pelan. Pakai tali (rope) atau bar lurus di cable machine.'},
+situp:{n:'Sit-up (bangku)',m:'f',x:120,A:[-90,95,-100,135,45,0],B:[30,95,-100,135,45,0],T:3,roll:1,c:['Angkat badan, perut mengencang','Turun pelan 2-3 detik'],tip:'Kaitkan kaki di bantalan, tangan menyilang di dada, jangan menarik leher. Mulai tanpa beban dan atur kemiringan bangku sedikit saja.'},
+preacher:{n:'Preacher Curl (bangku)',m:'s',w:10,db:1,pad:1,T:3,A:[20,40,40,90,0,0],B:[20,40,220,90,0,0],c:['Curl ke atas','Turunkan pelan sampai lengan hampir lurus'],tip:'Lengan atas menempel bantalan, ketiak di ujung atas bantalan. Jangan memantul di bawah. Pakai EZ-bar atau dumbel ringan dulu.'},
+rdl:{n:'Romanian Deadlift (dumbel)',m:'f',x:90,db:1,w:10,A:[0,0,0,0,0],B:[65,0,0,10,-10],T:3,c:['Dorong pinggul ke belakang','Berdiri tegak, jepit bokong'],tip:'Lutut sedikit ditekuk dan tetap, punggung datar. Dumbel turun menempel paha sampai betis. Tarikan terasa di paha belakang.'}
+});
+Object.assign(E,{
+bbsquat:{n:'Barbell Squat',m:'f',x:90,bb:1,bs:1,w:20,T:3,A:[0,-30,158,0,0,0],B:[38,-30,158,78,-22,0],c:['Turun: pinggul ke belakang','Naik: dorong lewat tumit'],tip:'Bar di punggung atas (bukan di leher), dada tegak, lutut searah jari kaki. Mulai dari bar kosong 20 kg di rak (power rack) dan minta dijaga. Turun sampai paha hampir sejajar lantai.'},
+deadlift:{n:'Deadlift (barbel)',m:'f',x:90,bb:1,w:20,T:3.4,A:[65,-25,-25,70,-25,0],B:[0,0,0,0,0,0],c:['Dorong lantai, berdiri tegak','Turunkan bar menempel kaki'],tip:'Bar di atas tengah telapak kaki, punggung datar, dada naik. Dorong lantai dengan kaki, bukan menarik dengan punggung. Mulai dengan bar kosong dan pelajari bentuknya dulu.'},
+bbrow:{n:'Barbell Row',m:'f',x:90,bb:1,w:20,T:3,A:[70,0,0,25,-20,0],B:[70,-125,-15,25,-20,0],c:['Tarik bar ke perut bawah','Turunkan pelan'],tip:'Badan condong ke depan, punggung datar, lutut sedikit ditekuk. Tarik bar ke arah pusar, jepit tulang belikat. Jangan mengayun dengan badan.'},
+bbpress:{n:'Barbell Overhead Press',m:'f',x:90,bb:1,w:20,T:3,A:[0,15,170,0,0,0],B:[0,172,176,0,0,0],c:['Dorong bar ke atas','Turunkan ke dada atas'],tip:'Berdiri tegak, perut dan bokong kencang, jangan melengkungkan punggung bawah. Dorong bar lurus ke atas kepala. Mulai dari bar kosong.'},
+bbcurl:{n:'Barbell Curl',m:'f',x:90,bb:1,w:20,T:2.8,A:[0,3,3,0,0,0],B:[0,3,150,0,0,0],c:['Angkat bar','Turunkan pelan'],tip:'Siku menempel di samping badan, jangan mengayun atau mencondongkan badan ke belakang. Boleh pakai EZ-bar jika pergelangan terasa tidak nyaman.'},
+cablecurl:{n:'Cable Curl',m:'f',x:70,hdl:1,cab:3,w:0,T:2.8,A:[0,3,3,0,0,0],B:[0,3,150,0,0,0],c:['Tarik ke atas','Turunkan pelan'],tip:'Pasang bar atau tali di katrol paling bawah. Siku menempel di samping badan, tegang sepanjang gerakan karena kabel tidak memberi jeda.'},
+cablerow:{n:'Cable Row Duduk',m:'s',hdl:1,cab:2,w:0,T:3,A:[0,85,85,90,0,0],B:[-8,-80,70,90,0,0],c:['Tarik gagang ke perut','Rentangkan lengan pelan'],tip:'Katrol di posisi rendah, duduk dengan lutut sedikit ditekuk dan punggung tegak. Tarik sampai tulang belikat terjepit, jangan mengayun.'},
+cablecrunch:{n:'Cable Crunch',m:'k',x:90,hdl:1,cab:1,w:0,T:3,A:[5,0,160,0,-90,0],B:[75,0,160,10,-90,0],c:['Lengkungkan punggung, siku ke lutut','Kembali pelan'],tip:'Berlutut menghadap katrol atas dengan tali di belakang kepala. Gerakan datang dari perut, bukan menarik dengan lengan atau pinggul.'}
+});
+Object.assign(E.chest,{h:1});Object.assign(E.spress,{h:1});
 const pad=a=>[...a,0].slice(0,6);
 Object.values(E).forEach(e=>{e.A=pad(e.A);e.B=pad(e.B)});
 
@@ -61,8 +81,9 @@ const RT={home:{
 A:{n:'Full Body A',i:[['squat',3,10,'r'],['pushk',3,8,'r'],['row',3,10,'r'],['plank',3,20,'s'],['bridge',3,12,'r'],['bike',1,10,'m']]},
 B:{n:'Full Body B',i:[['gsquat',3,10,'r'],['press',3,10,'r'],['curl',3,10,'r'],['hang',3,2,'r'],['skip',3,20,'s'],['bike',1,10,'m']]}},
 gym:{
-A:{n:'Gym A',i:[['walk',1,10,'m'],['legext',3,12,'r'],['chest',3,10,'r'],['pulldown',3,10,'r'],['plank',3,20,'s']]},
-B:{n:'Gym B',i:[['bike',1,10,'m'],['gsquat',3,10,'r'],['spress',3,10,'r'],['srow',3,10,'r'],['bridge',3,12,'r']]}}};
+A:{n:'Gym A (Dada & Kaki)',i:[['walk',1,8,'m'],['legpress',3,12,'r'],['bench',3,10,'r'],['pulldown',3,10,'r'],['pushdown',3,12,'r'],['situp',3,10,'r']]},
+B:{n:'Gym B (Punggung & Lengan)',i:[['bike',1,8,'m'],['legext',3,12,'r'],['srow',3,10,'r'],['pecdeck',3,12,'r'],['preacher',3,10,'r'],['plank',3,20,'s']]},
+C:{n:'Gym C (Kaki & Bahu)',i:[['walk',1,8,'m'],['gsquat',3,10,'r'],['rdl',3,10,'r'],['press',3,10,'r'],['pulldown',3,10,'r'],['situp',3,10,'r']]}}};
 
 /* ===== Animasi figur ===== */
 const lerp=(a,b,e)=>a.map((v,i)=>v+(b[i]-v)*e);
@@ -72,19 +93,29 @@ function jt(p){const[t,a1,a2,l1,l2]=p,v=(a,l)=>[Math.sin(a*D)*l,Math.cos(a*D)*l]
 function fig(ex,ph){
  const p=lerp(ex.A,ex.B,ph),q=ex.alt?lerp(ex.B,ex.A,ph):p,j=jt(p),f=jt(q),m=ex.m;let o;
  if(m=='f')o=[ex.x-j.ft[0],FL-j.ft[1]];else if(m=='k')o=[ex.x-j.kn[0],FL-j.kn[1]];
- else if(m=='b')o=[100-j.ha[0],22-j.ha[1]];else if(m=='s')o=[70,104];else o=[95,FL-44+p[5]];
+ else if(m=='b')o=[100-j.ha[0],22-j.ha[1]];else if(m=='s')o=[70,104];else if(m=='q')o=ex.pin;else o=[95,FL-44+p[5]];
  const P=a=>(a[0]+o[0]).toFixed(1)+','+(a[1]+o[1]).toFixed(1),hip=[0,0],
  ln=(pts,c,w)=>`<polyline points="${pts.map(P).join(' ')}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`,
- fa=ex.alt==1?f:j,fl=ex.alt?f:j,H=[j.ha[0]+o[0],j.ha[1]+o[1]];
+ fa=ex.alt==1?f:j,fl=ex.alt?f:j,H=ex.bs?[j.sh[0]+o[0],j.sh[1]+o[1]]:[j.ha[0]+o[0],j.ha[1]+o[1]];
  let s=`<line x1="0" y1="${FL+3}" x2="200" y2="${FL+3}" stroke="#9fb0a7" stroke-width="2"/>`;
  if(m=='b')s+=`<line x1="60" y1="22" x2="140" y2="22" stroke="#5d6e67" stroke-width="3"/>`;
  if(m=='s')s+=`<rect x="50" y="107" width="44" height="19" rx="3" fill="#9fb0a7"/>`;
  if(ex.seat)s+=`<rect x="83" y="${FL-41}" width="26" height="5" rx="2" fill="#5d6e67"/><rect x="94" y="${FL-36}" width="4" height="39" fill="#9fb0a7"/>`;
- if(ex.cab)s+=`<line x1="${H[0]}" y1="${H[1]}" x2="${H[0]}" y2="2" stroke="#5d6e67" stroke-width="1.5" stroke-dasharray="3"/>`;
+ if(ex.cab==2)s+=`<line x1="${H[0]}" y1="${H[1]}" x2="195" y2="${H[1]}" stroke="#5d6e67" stroke-width="1.5" stroke-dasharray="3"/>`;
+ if(ex.cab==3)s+=`<line x1="${H[0]}" y1="${H[1]}" x2="170" y2="${FL}" stroke="#5d6e67" stroke-width="1.5" stroke-dasharray="3"/>`;
+ if(ex.cab==1)s+=`<line x1="${H[0]}" y1="${H[1]}" x2="${H[0]}" y2="2" stroke="#5d6e67" stroke-width="1.5" stroke-dasharray="3"/>`;
+ const pt=a=>[a[0]+o[0],a[1]+o[1]];
+ if(ex.bench){const h=pt(hip),b=pt(j.sh);s+=`<rect x="${b[0]-10}" y="${h[1]+4}" width="${h[0]-b[0]+26}" height="5" rx="2" fill="#9fb0a7"/><rect x="${b[0]-6}" y="${h[1]+9}" width="4" height="${FL+3-h[1]-9}" fill="#9fb0a7"/><rect x="${h[0]+10}" y="${h[1]+9}" width="4" height="${FL+3-h[1]-9}" fill="#9fb0a7"/>`}
+ if(ex.back){const h=pt([-3,7]),b=pt([j.sh[0]*1.3-3,j.sh[1]*1.3+7]);s+=`<line x1="${h[0]}" y1="${h[1]}" x2="${b[0]}" y2="${b[1]}" stroke="#9fb0a7" stroke-width="9" stroke-linecap="round"/>`}
+ if(ex.pl){const g=pt(j.ft);s+=`<line x1="${g[0]+5}" y1="${g[1]-18}" x2="${g[0]+5}" y2="${g[1]+18}" stroke="#1f6f5c" stroke-width="5" stroke-linecap="round"/>`}
+ if(ex.pad){const a=pt([j.sh[0]-4.6,j.sh[1]+3.8]),b=[a[0]+19,a[1]+23];s+=`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="#9fb0a7" stroke-width="8" stroke-linecap="round"/><rect x="${b[0]-2}" y="${b[1]}" width="4" height="${FL+3-b[1]}" fill="#9fb0a7"/>`}
+ if(ex.roll){const g=pt(j.ft);s+=`<circle cx="${g[0]+5}" cy="${g[1]-3}" r="6" fill="#1f6f5c"/>`}
  s+=ln([hip,fl.kn,fl.ft],'#5d6e67',5)+ln([j.sh,fa.el,fa.ha],'#5d6e67',4)+ln([hip,j.sh],'#ff5a1f',7)+ln([hip,j.kn,j.ft],'#16231f',5.5)+ln([j.sh,j.el,j.ha],'#16231f',4.5)
  +`<circle cx="${P(j.hd).split(',')[0]}" cy="${P(j.hd).split(',')[1]}" r="6.5" fill="#16231f"/>`;
  if(ex.db)s+=`<line x1="${H[0]-6}" y1="${H[1]}" x2="${H[0]+6}" y2="${H[1]}" stroke="#16231f" stroke-width="2"/><circle cx="${H[0]-6}" cy="${H[1]}" r="3.5" fill="#1f6f5c"/><circle cx="${H[0]+6}" cy="${H[1]}" r="3.5" fill="#1f6f5c"/>`;
  if(ex.bar)s+=`<line x1="${H[0]-18}" y1="${H[1]}" x2="${H[0]+18}" y2="${H[1]}" stroke="#1f6f5c" stroke-width="3" stroke-linecap="round"/>`;
+ if(ex.bb)s+=`<circle cx="${H[0]}" cy="${H[1]}" r="5.5" fill="#1f6f5c"/><circle cx="${H[0]}" cy="${H[1]}" r="1.8" fill="#fff"/>`;
+ if(ex.hdl)s+=`<circle cx="${H[0]}" cy="${H[1]}" r="3.2" fill="#1f6f5c"/>`;
  return s}
 let raf;
 function play(ex,sv,cue){const t0=performance.now(),T=(ex.T||2.6)*1000;
@@ -105,19 +136,19 @@ function render(){cancelAnimationFrame(raf);
 
 function home(){
  const k=S.w.at(-1).k,bmi=(k/((S.h/100)**2)).toFixed(1),R=RT[S.mode],ks=Object.keys(R),ls=S.s.filter(x=>x.mode==S.mode).at(-1);
- if(!sel||!R[sel])sel=ls&&ls.rk==ks[0]?ks[1]:ks[0];
+ if(!sel||!R[sel])sel=ls&&ks.includes(ls.rk)?ks[(ks.indexOf(ls.rk)+1)%ks.length]:ks[0];
  const wk=S.s.filter(x=>Date.now()-new Date(x.d)<6048e5).length,ago=S.s.length?Math.floor((Date.now()-new Date(S.s.at(-1).d))/864e5):null;
  return `<h1>Halo, Fauzi</h1><div class="m">${k} kg, ${S.h} cm, BMI ${bmi}</div>
  <div class="row seg" style="margin-top:12px"><button class="${S.mode=='home'?'on':''}" onclick="setMode('home')">Di Rumah</button><button class="${S.mode=='gym'?'on':''}" onclick="setMode('gym')">Di Gym</button></div>
  <div class="card"><b>${wk} sesi minggu ini</b><div class="m">${ago==null?'Belum ada sesi, mulai kapan pun kamu siap.':ago==0?'Terakhir latihan: hari ini':'Terakhir latihan: '+ago+' hari lalu'}. Target 2-3 sesi per minggu, hari bebas.</div><div class="bar" style="margin-top:8px"><i style="width:${Math.min(100,wk/3*100)}%"></i></div></div>
- <h2>Pilih latihan (disarankan: ${R[sel].n})</h2><div class="row seg">${ks.map(x=>`<button class="${x==sel?'on':''}" onclick="sel='${x}';render()">${R[x].n}</button>`).join('')}</div>
+ <h2>Pilih latihan (disarankan: ${R[sel].n})</h2><div class="row seg" style="flex-wrap:wrap">${ks.map(x=>`<button style="flex:1 1 45%" class="${x==sel?'on':''}" onclick="sel='${x}';render()">${R[x].n}</button>`).join('')}</div>
  <div class="card">${R[sel].i.map(x=>`<div class="row" style="padding:5px 0"><span style="flex:3">${E[x[0]].n}</span><span class="m" style="text-align:right">${x[3]=='m'?x[2]+' menit':x[1]+' × '+x[2]+(x[3]=='s'?' detik':'')}</span></div>`).join('')}</div>
  <button class="p big" onclick="start()">Mulai latihan</button>
  <div class="card m">Pemanasan 3-5 menit dulu (jalan di tempat, putar bahu dan pinggul). Istirahat 60 detik antar set. Naikkan repetisi atau beban sedikit saat semua set terasa ringan. Berhenti jika ada nyeri sendi.</div>`}
 function setMode(m){S.mode=m;sel=null;save();render()}
 function guide(){return `<h1>Panduan gerakan</h1><svg class="an" id="an" viewBox="0 0 200 140" style="margin-top:10px"></svg><div class="cue" id="cue"></div>
  <div class="card"><b>${E[gsel].n}</b><div class="m">${E[gsel].tip}</div></div>
- <div class="chips">${Object.keys(E).map(k=>`<button class="${k==gsel?'p':''}" onclick="gsel='${k}';render()">${E[k].n}</button>`).join('')}</div>`}
+ <div class="chips">${Object.keys(E).filter(k=>!E[k].h).map(k=>`<button class="${k==gsel?'p':''}" onclick="gsel='${k}';render()">${E[k].n}</button>`).join('')}</div>`}
 
 function chart(){const w=S.w.slice(-12);if(w.length<2)return '<div class="m">Catat berat badan minimal 2 kali untuk melihat grafik.</div>';
  const v=w.map(x=>x.k),mn=Math.min(...v)-1,mx=Math.max(...v)+1,X=i=>20+i*(260/(w.length-1)),Y=k=>20+(mx-k)/(mx-mn)*85;
